@@ -9,7 +9,7 @@ app.use(express.json());
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://mdafsar99009:sF5mneEKKJ4d$.-@cluster0.zgmhkd0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -20,7 +20,6 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
-
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
@@ -30,15 +29,16 @@ async function run() {
 
         //  for craft items
         const craftItems = client.db("CraftItemDB").collection('craftItems');
+        const ArtCraft = client.db("ArtCraftDb").collection('ArtCraft');
 
 
         // post craft-items-section data
-        app.post('/craftSection', async (req, res) => {
+        app.post('/CraftItem', async (req, res) => {
             const result = await craftItems.insertOne(req.body);
             res.send(result);
         })
         // get craft-items-section data
-        app.get('/craftSection', async (req, res) => {
+        app.get('/CraftItem', async (req, res) => {
             const cursor = craftItems.find();
             const result = await cursor.toArray();
             res.send(result);
@@ -46,12 +46,55 @@ async function run() {
 
 
 
+        app.post('/ArtCraft', async (req, res) => {
+            const result = await ArtCraft.insertOne(req.body);
+            res.send(result);
+        })
 
+        app.get('/ArtCraft', async (req, res) => {
+            const cursor = ArtCraft.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+        app.get('/ArtCraft/:email', async (req, res) => {
+            const filter = { email: req.params.email }
+            const cursor = ArtCraft.find(filter);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
+        app.get('/ArtCraft/email/:id', async (req, res) => {
+            const query = { _id: new ObjectId(req.params.id) };
+            const result = await ArtCraft.findOne(query);
+            res.send(result)
+        })
 
+        app.delete('/ArtCraft/:id', async (req, res) => {
+            const query = { _id: new ObjectId(req.params.id) };
+            const result = await ArtCraft.deleteOne(query);
+            res.send(result)
 
+        })
 
-
+        app.put('/ArtCraft/:id', async (req, res) => {
+            const data = req.body;
+            const filter = { _id: new ObjectId(req.params.id) };
+            const updateDoc = {
+                $set: {
+                    description: data.description,
+                    price: data.price,
+                    rating: data.rating,
+                    customization: data.customization,
+                    processing: data.processing,
+                    subcategory: data.subcategory,
+                    stock: data.stock,
+                    Image: data.Image,
+                    Item: data.Item,
+                },
+            };
+            const result = await ArtCraft.updateOne(filter, updateDoc);
+            res.send(result)
+        })
 
 
 
