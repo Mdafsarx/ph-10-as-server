@@ -32,17 +32,17 @@ async function run() {
         const ArtCraft = client.db("ArtCraftDb").collection('ArtCraft');
 
 
-        // post craft-items-section data
-        app.post('/CraftItem', async (req, res) => {
-            const result = await craftItems.insertOne(req.body);
-            res.send(result);
-        })
-        // get craft-items-section data
-        app.get('/CraftItem', async (req, res) => {
-            const cursor = craftItems.find();
-            const result = await cursor.toArray();
-            res.send(result);
-        })
+        // // post craft-items-section data
+        // app.post('/CraftItem', async (req, res) => {
+        //     const result = await craftItems.insertOne(req.body);
+        //     res.send(result);
+        // })
+        // // get craft-items-section data
+        // app.get('/CraftItem', async (req, res) => {
+        //     const cursor = craftItems.find();
+        //     const result = await cursor.toArray();
+        //     res.send(result);
+        // })
 
 
 
@@ -56,6 +56,7 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
+
         app.get('/ArtCraft/:email', async (req, res) => {
             const filter = { email: req.params.email }
             const cursor = ArtCraft.find(filter);
@@ -96,7 +97,9 @@ async function run() {
             res.send(result)
         })
 
-
+         app.get('/g',(req,res)=>{
+            res.send('okk')
+         })
 
 
 
