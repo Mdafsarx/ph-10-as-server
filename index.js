@@ -30,19 +30,20 @@ async function run() {
         //  for craft items
         const craftItems = client.db("CraftItemDB").collection('craftItems');
         const ArtCraft = client.db("ArtCraftDb").collection('ArtCraft');
+        // const category = client.db("ArtCraftDb").collection('Category');
 
 
-        // // post craft-items-section data
-        // app.post('/CraftItem', async (req, res) => {
-        //     const result = await craftItems.insertOne(req.body);
-        //     res.send(result);
-        // })
-        // // get craft-items-section data
-        // app.get('/CraftItem', async (req, res) => {
-        //     const cursor = craftItems.find();
-        //     const result = await cursor.toArray();
-        //     res.send(result);
-        // })
+        // post craft-items-section data
+        app.post('/CraftItem', async (req, res) => {
+            const result = await craftItems.insertOne(req.body);
+            res.send(result);
+        })
+        // get craft-items-section data
+        app.get('/CraftItem', async (req, res) => {
+            const cursor = craftItems.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
 
 
@@ -77,7 +78,7 @@ async function run() {
 
         })
 
-        app.put('/ArtCraft/:id', async (req, res) => {
+        app.put('/art/:id', async (req, res) => {
             const data = req.body;
             const filter = { _id: new ObjectId(req.params.id) };
             const updateDoc = {
@@ -96,10 +97,12 @@ async function run() {
             const result = await ArtCraft.updateOne(filter, updateDoc);
             res.send(result)
         })
-
-         app.get('/g',(req,res)=>{
-            res.send('okk')
-         })
+        
+        // app.get('/Category', async (req, res) => {
+        //     const cursor = category.find();
+        //     const result = await cursor.toArray();
+        //     res.send(result);
+        // })
 
 
 
