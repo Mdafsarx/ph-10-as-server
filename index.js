@@ -34,10 +34,10 @@ async function run() {
 
 
         // post craft-items-section data
-        app.post('/CraftItem', async (req, res) => {
-            const result = await craftItems.insertOne(req.body);
-            res.send(result);
-        })
+        // app.post('/CraftItem', async (req, res) => {
+        //     const result = await craftItems.insertOne(req.body);
+        //     res.send(result);
+        // })
         // get craft-items-section data
         app.get('/CraftItem', async (req, res) => {
             const cursor = craftItems.find();
